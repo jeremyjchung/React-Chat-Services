@@ -4,7 +4,9 @@
   "description": "React Chat microservice",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "express": "4.10.2"
+    "express": "4.10.2",
+    "mongoose": "^4.5.4",
+    "node-restful": "^0.2.5"
   },
   "scripts": {
     "start": "node index.js"
