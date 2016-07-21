@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.route('/')
 
-  //localhost:/8080/users 
+  //localhost:/8080/users
   .post(function(req, res) {
     var user = new User();
     user.username = req.body.username;
@@ -46,6 +46,22 @@ router.route('/')
       }
       else if(document == null) {
         res.status(404).json({message: 'Invalid username and password pair'});
+      }
+      else{
+        res.status(200).json(document);
+      }
+    });
+  });
+
+router.route('/all/')
+
+  .get(function(req, res) {
+    User.find({}, function(err, document) {
+      if(err) {
+        res.status(503).send(err);
+      }
+      else if(document == null) {
+        res.status(404).json({message: 'No users found...'});
       }
       else{
         res.status(200).json(document);
