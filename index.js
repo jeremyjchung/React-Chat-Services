@@ -1,10 +1,15 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var mongoose = require('mongoose');
-var routes = require('./routes/api');
+var userRoutes = require('./routes/userApi');
+var chatroomRoutes = require('./routes/chatApi');
+var chatServices = require('./services/chatServices');
 
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/ReactChatUsers');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +24,14 @@ app.get('/', function(req, res) {
     res.send('Welcome to the React Chat Services!!!');
 });
 
-app.use('/users', routes);
+app.use('/users', userRoutes);
+app.use('/chatrooms', chatroomRoutes);
 
-app.listen(9000);
-console.log('React Chat Services fired up!!! Listening on port 9000 ....');
+chatServices(io);
+
+http.listen(4112, function() {
+  console.log('React Chat socket fired up!!! Listening on port 4112 ....');
+});
+app.listen(9000, function() {
+  console.log('React Chat Services fired up!!! Listening on port 9000 ....');
+});
