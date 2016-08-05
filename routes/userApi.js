@@ -84,7 +84,7 @@ router.route('/all')
       else{
         res.status(200).json(document);
       }
-    })
+    });
   })
 
   .delete(function(req, res) {
